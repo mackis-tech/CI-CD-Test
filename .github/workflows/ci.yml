@@ -30,3 +30,10 @@ jobs:
         with:
           name: build-zip
           path: build.zip
+      - name: Notify upon success
+        if: success()
+        run: |
+          echo "Build and tests passed successfully!"
+          yum install mailx -y
+          echo "Build and tests passed successfully!" | mail -s "CI Notification" finnyraj14@gmail.com
+          
