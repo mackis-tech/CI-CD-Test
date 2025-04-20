@@ -4,6 +4,8 @@ on:
     branches: [test]
   pull_request:
     branches: [test]
+  workflow_dispatch:
+    
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
@@ -48,5 +50,5 @@ jobs:
         if: success()
         run: |
           echo "Build and tests passed successfully!"
-          echo "Build and tests passed successfully!" | mail -s "CI Notification" finnyraj14@gmail.com
+          echo "Build and tests passed successfully!" | mail -v -s "CI Notification" finnyraj14@gmail.com
           
