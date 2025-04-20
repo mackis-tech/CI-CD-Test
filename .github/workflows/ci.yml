@@ -30,10 +30,23 @@ jobs:
         with:
           name: build-zip
           path: build.zip
+
+      - name: Install mailx and setup config
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mailutils
+
+          # Configure mailx with SMTP (Gmail example)
+          echo "set smtp=smtp://smtp.gmail.com:587" >> ~/.mailrc
+          echo "set smtp-auth=login" >> ~/.mailrc
+          echo "set smtp-auth-user=${{ secrets.EMAIL_USERNAME }}" >> ~/.mailrc
+          echo "set smtp-auth-password=${{ secrets.EMAIL_PASSWORD }}" >> ~/.mailrc
+          echo "set from=${{ secrets.EMAIL_USERNAME }}" >> ~/.mailrc
+          echo "set ssl-verify=ignore" >> ~/.mailrc
+          echo "set nss-config-dir=/etc/pki/nssdb" >> ~/.mailrc
       - name: Notify upon success
         if: success()
         run: |
           echo "Build and tests passed successfully!"
-          yum install mailx -y
           echo "Build and tests passed successfully!" | mail -s "CI Notification" finnyraj14@gmail.com
           
